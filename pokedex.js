@@ -1,4 +1,5 @@
 const Pokemons = [
+  
   {
     species: "Bulbasaur",
     type: ["grass", "poison"],
