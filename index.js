@@ -15,6 +15,7 @@ let timerId = setInterval(() => {
   contador--;
   if (contador < 0) {
     let newGame = new Game();
+    console.clear();
     newGame.start();
   }
 }, 1000);
