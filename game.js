@@ -1,6 +1,7 @@
 class Game {
   start() {
     // llamar a welcome para el proceso de bienvenida y obtener el arreglo [name, pokemon, pokemonName]
+    Game.welcome();
     // crear un Player con la info obtenida (tu pokemon empieza con nivel 3 por defecto). Asignarlo al atributo 'player'
     // Empezar el bucle del juego
     // Usar menu() para pedir al usuario que elija entre Train, Leader o Stats
