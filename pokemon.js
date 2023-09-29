@@ -61,8 +61,18 @@ class Pokemon {
   }
 
   setCurrentMove(move) {
-    const foundMove = Moves.find((m) => m.name === move); // buscar el move (string) en el pokedex y asignarlo al atributo currentMove
+    const foundMove = Moves.find((m) => m.name === move);
+    if (foundMove) {
+      this.currentMove = foundMove;
+    } else {
+      console.log(`Move ${move} not found.`);
+    }
   }
+
+  getCurrentMove() {
+    return this.currentMove ? this.currentMove.name : "N/A";
+  }
+
 
   isFainted() {
     return this.currentHp === 0; // retornar si currentHp es 0 o no
