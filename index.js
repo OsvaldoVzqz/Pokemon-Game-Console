@@ -18,3 +18,6 @@ let timerId = setInterval(() => {
     newGame.start();
   }
 }, 1000);
+
+// dejar de contar después de 10 segundos
+setTimeout(() => clearInterval(timerId), 11000);
