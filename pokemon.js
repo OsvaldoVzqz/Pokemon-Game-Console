@@ -60,6 +60,14 @@ class Pokemon {
     this.currentHp = Math.max(0, this.currentHp - damage); // reducir currentHp en la cantidad de damage. No debe quedar menor a 0.
   }
 
+  getMoves() {
+    return this.moves;
+  }
+
+  getStats() {
+    return this.baseStats;
+  }
+
   setCurrentMove(move) {
     const foundMove = Moves.find((m) => m.name === move);
     if (foundMove) {
@@ -72,7 +80,6 @@ class Pokemon {
   getCurrentMove() {
     return this.currentMove ? this.currentMove.name : "N/A";
   }
-
 
   isFainted() {
     return this.currentHp === 0; // retornar si currentHp es 0 o no
@@ -97,18 +104,19 @@ class Pokemon {
     return (attackStat / defenseStat) * this.currentMove.power; // retornar el resultado de la formula de daño
   }
 
+  // calcular el multiplicador de efectividad tomando el tipo del currentMove y el tipo de pokemon del oponente
   calculateEffectiveness(target) {
-    // calcular el multiplicador de efectividad tomando el tipo del currentMove y el tipo de pokemon del oponente
     const moveType = this.currentMove.type;
     const multipliers = target.type.map(
       (t) => TypeMultiplier[moveType][t] || 1
     );
+    return multipliers.reduce((acc, curr) => acc * curr, 1);
   }
 
   attack(target) {
     console.log(`${this.name} used ${this.currentMove.name}`); // anunciar "[nombre] used [MOVE]!"
 
-    if (this.moveHits) {
+    if (this.moveHits()) {
       // determinar si el movimiento "pega" con moveHits()   // si "pega":
       let damage = this.calculateBaseDamage(target); //  calcular daño base con calculateDamage
       const criticalHit = this.isCritical();

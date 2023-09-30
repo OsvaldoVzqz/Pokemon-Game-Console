@@ -1,90 +1,75 @@
 class Game {
+  static welcome() {
+    alert("Welcome to the Pokemon Universe!");
+    let name = prompt("Enter your name:");
+    let speciesChoice = prompt(
+      "Choose your starter: Bulbasaur, Charmander, Squirtle"
+    );
+    let pokeName = prompt("Name your Pokemon:");
+    return [name, speciesChoice, pokeName];
+  }
+
   start() {
-    // llamar a welcome para el proceso de bienvenida y obtener el arreglo [name, pokemon, pokemonName]
-    let userData = Game.welcome();
+    let [playerName, species, pokeName] = Game.welcome();
+    this.player = new Player(playerName, species, pokeName, 5);
 
-    // crear un Player con la info obtenida (tu pokemon empieza con nivel 3 por defecto). Asignarlo al atributo 'player'
+    let choice;
+    while ((choice = Game.menu()) !== null) {
+      if (choice === "Train") {
+        this.train();
+      } else if (choice === "Stats") {
+        this.showStats();
+      } else if (choice === "Leader") {
+        this.challengeLeader();
+      } else {
+        alert("Invalid option. Please choose again.");
+      }
+    }
 
-    this.player = new Player(userData[0], userData[1], userData[2], 3);
-    // Empezar el bucle del juego
-
-    // Usar menu() para pedir al usuario que elija entre Train, Leader o Stats
-    let choice = Game.menu();
-    // Ejecutar train(), challengeLeader() o showStats() segun la opción del usuario
-    if (choice === "Train") this.train();
-    if (choice === "Stats") this.showStats();
-    if (choice === "Leader") this.challengeLeader();
-    // Continuar el bucle hasta que el usuario aprete Cancel
-    // Llamar a goodbye para la despedida
     Game.goodbye();
   }
 
   train() {
-    // Función para generar un número aleatorio entre min (incluido) y max (excluido)
-    function randomBetween(min, max) {
-      return Math.floor(Math.random() * (max - min)) + min;
+    function randomPokemon() {
+      const randomPokeData =
+        Pokemons[Math.floor(Math.random() * Pokemons.length)];
+      return randomPokeData.species;
     }
 
-    //Genera un pokemon aleatorio
-    let rPkmn = Pokemons[randomBetween(0, Pokemons.length)];
-    //console.log(rPkmn.species);
-
-    // Genera un nivel aleatorio para el Pokémon del Bot entre 1 y 5
-    const nivelAleatorio = randomBetween(1, 6);
-
-    // Crea una instancia de Bot llamada "Random Person" con un Pokémon aleatorio y nivel aleatorio
-    const RandomPerson = new Bot(
-      "Trainer Chano",
-      rPkmn.species,
-      rPkmn.species,
-      nivelAleatorio
+    let speciesChoice = randomPokemon();
+    let bot = new Bot(
+      "Random Person",
+      speciesChoice,
+      speciesChoice,
+      Math.floor(Math.random() * 5) + 1
     );
-    //console.log(RandomPerson);
 
     console.log(
-      this.player.name + " challenges " + RandomPerson.name + " for training"
+      `%c${this.player.name} challenges ${bot.name} for training`,
+      "font-weight: bold;"
     );
-
-    // Anunciar "[oponente] has a [pokemon] level [nivel]"
     console.log(
-      RandomPerson.name + " has a " + rPkmn.species + " level " + nivelAleatorio
+      `${bot.name} has a ${bot.pokemon.name} level ${bot.pokemon.level}`
     );
-
-    // Usar confirm() para preguntar al usuario si quiere pelear "Do you want to fight?"
-    var resultado = confirm("Do you want to fight?");
-
-    // Si, sí quiere pelear
-    if (resultado) {
-      const instancia = new Battle(this.player, RandomPerson);
-      instancia.start();
-    } else {
-      Game.menu();
-    }
-    // Crear una Batalla entre el player y el oponente
-    // empezar la batalla con su start
+    console.log("`%cThe battle is about to start!", "font-weight: bold;");
+    console.log(
+      `${this.player.name} sent out ${this.player.pokemon.name.toUpperCase()}!`
+    );
+    console.log(`${bot.name} sent out ${bot.pokemon.name.toUpperCase()}!`);
+    console.log("`%cBattle Start!", "font-weight: bold;");
+    let battle = new Battle(this.player, bot);
+    battle.start();
   }
 
   challengeLeader() {
-    alert("se eligió Leader");
-    // mismo mecanismo que train() pero el Bot se llama Brock y usa un Onix nivel 10
+    let bot = new Bot("Brock", "Onix", "RockSnake", 10);
+    console.log(`${bot.name} accepts your challenge!`);
+    let battle = new Battle(this.player, bot);
+    battle.start();
   }
 
   showStats() {
-    alert("se eligió Stats");
-    // usar console.table para presentar las estadisticas de tu pokemon:
-    /*
-      - species
-      - level
-      - type
-      - experiencePoints
-      stats:
-      - hp
-      - attack
-      - defense
-      - specialAttack
-      - specialDefense
-      - speed
-    */
+    console.table(this.player.pokemon.getStats());
   }
 
   static welcome() {
