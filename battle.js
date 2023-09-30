@@ -13,12 +13,17 @@ class Battle {
       const move2 = this.player2.selectMove();
 
       if (move1 === null || move2 === null) {
-        console.log(`${move1 === null ? this.player1.name : this.player2.name} run away!`);
+        console.log(
+          `${move1 === null ? this.player1.name : this.player2.name} run away!`
+        );
         break;
       }
 
       const firstPokemon = this.getFirstPokemon();
-      const secondPokemon = firstPokemon === this.player1.pokemon ? this.player2.pokemon : this.player1.pokemon;
+      const secondPokemon =
+        firstPokemon === this.player1.pokemon
+          ? this.player2.pokemon
+          : this.player1.pokemon;
 
       firstPokemon.attack(secondPokemon);
 
@@ -79,7 +84,9 @@ class Battle {
   firstBySpeed() {
     if (this.player1.pokemon.stats.speed > this.player2.pokemon.stats.speed) {
       return this.player1.pokemon;
-    } else if (this.player2.pokemon.stats.speed > this.player1.pokemon.stats.speed) {
+    } else if (
+      this.player2.pokemon.stats.speed > this.player1.pokemon.stats.speed
+    ) {
       return this.player2.pokemon;
     } else {
       return null;
@@ -103,4 +110,3 @@ class Battle {
     ]);
   }
 }
-

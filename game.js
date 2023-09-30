@@ -20,19 +20,34 @@ class Game {
   }
 
   train() {
-    // Crear un Bot llamado "Random Person", con un Pokemon aleatorio de nivel entre 1 y 5
-    let RandomPerson = new Bot("Random trainer", "Bulbasaur", "Bulbasaur", 3);
-    // Anunciar "[nombre] challenges [oponente] for training"
+    // Función para generar un número aleatorio entre min (incluido) y max (excluido)
+    function randomBetween(min, max) {
+      return Math.floor(Math.random() * (max - min)) + min;
+    }
+
+    //Genera un pokemon aleatorio
+    let rPkmn = Pokemons[randomBetween(0, Pokemons.length)];
+    //console.log(rPkmn.species);
+
+    // Genera un nivel aleatorio para el Pokémon del Bot entre 1 y 5
+    const nivelAleatorio = randomBetween(1, 6);
+
+    // Crea una instancia de Bot llamada "Random Person" con un Pokémon aleatorio y nivel aleatorio
+    const RandomPerson = new Bot(
+      "Trainer Chano",
+      rPkmn.species,
+      rPkmn.species,
+      nivelAleatorio
+    );
+    //console.log(RandomPerson);
+
     console.log(
       this.player.name + " challenges " + RandomPerson.name + " for training"
     );
+
     // Anunciar "[oponente] has a [pokemon] level [nivel]"
     console.log(
-      RandomPerson.name +
-        "has a " +
-        RandomPerson.pokemon +
-        "level " +
-        RandomPerson.level
+      RandomPerson.name + " has a " + rPkmn.species + " level " + nivelAleatorio
     );
 
     // Usar confirm() para preguntar al usuario si quiere pelear "Do you want to fight?"
@@ -40,7 +55,7 @@ class Game {
 
     // Si, sí quiere pelear
     if (resultado) {
-      const instancia = new Battle();
+      const instancia = new Battle(this.player, RandomPerson);
       instancia.start();
     } else {
       Game.menu();
