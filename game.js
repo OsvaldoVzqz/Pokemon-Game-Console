@@ -4,7 +4,8 @@ class Game {
     let userData = Game.welcome();
 
     // crear un Player con la info obtenida (tu pokemon empieza con nivel 3 por defecto). Asignarlo al atributo 'player'
-    //let Player = new Player(userData[0], userData[1], userData[2], 3);
+
+    this.player = new Player(userData[0], userData[1], userData[2], 3);
     // Empezar el bucle del juego
 
     // Usar menu() para pedir al usuario que elija entre Train, Leader o Stats
@@ -19,12 +20,31 @@ class Game {
   }
 
   train() {
-    alert("se eligió Train");
     // Crear un Bot llamado "Random Person", con un Pokemon aleatorio de nivel entre 1 y 5
+    let RandomPerson = new Bot("Random trainer", "Bulbasaur", "Bulbasaur", 3);
     // Anunciar "[nombre] challenges [oponente] for training"
+    console.log(
+      this.player.name + " challenges " + RandomPerson.name + " for training"
+    );
     // Anunciar "[oponente] has a [pokemon] level [nivel]"
+    console.log(
+      RandomPerson.name +
+        "has a " +
+        RandomPerson.pokemon +
+        "level " +
+        RandomPerson.level
+    );
+
     // Usar confirm() para preguntar al usuario si quiere pelear "Do you want to fight?"
+    var resultado = confirm("Do you want to fight?");
+
     // Si, sí quiere pelear
+    if (resultado) {
+      const instancia = new Battle();
+      instancia.start();
+    } else {
+      Game.menu();
+    }
     // Crear una Batalla entre el player y el oponente
     // empezar la batalla con su start
   }
