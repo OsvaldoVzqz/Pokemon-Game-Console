@@ -10,11 +10,11 @@ class Pokemon {
     this.baseExp = pokeData.baseExp;
     this.effortPoints = pokeData.effortPoints;
     this.growthRate = pokeData.growthRate;
-    this.baseStats = pokeData.baseStats;
     this.moves = pokeData.moves;
+    this.baseStats = pokeData.baseStats;
 
     const growFunction = ExperienceCurves[this.growthRate];
-    this.experiencePoints = level === 1 ? 0 : growFunction(level);
+    this.experiencePoints = level === 1 ? 0 : Math.round(growFunction(level));
 
     this.individualValues = {
       hp: randomBetween(0, 31),
@@ -40,7 +40,55 @@ class Pokemon {
   // calcular las estadisticas actuales del Pokémon
   get stats() {
     const stats = {
-      ...this.baseStats,
+      hp: Math.floor(
+        ((2 * this.baseStats.hp +
+          this.individualValues.hp +
+          this.effortValues.hp) *
+          this.level) /
+          100 +
+          this.level +
+          10
+      ),
+      attack: Math.floor(
+        ((2 * this.baseStats.attack +
+          this.individualValues.attack +
+          this.effortValues.attack) *
+          this.level) /
+          100 +
+          5
+      ),
+      defense: Math.floor(
+        ((2 * this.baseStats.defense +
+          this.individualValues.defense +
+          this.effortValues.defense) *
+          this.level) /
+          100 +
+          5
+      ),
+      specialAttack: Math.floor(
+        ((2 * this.baseStats.specialAttack +
+          this.individualValues.specialAttack +
+          this.effortValues.specialAttack) *
+          this.level) /
+          100 +
+          5
+      ),
+      specialDefense: Math.floor(
+        ((2 * 2 * this.baseStats.specialDefense +
+          this.individualValues.specialDefense +
+          this.effortValues.specialDefense) *
+          this.level) /
+          100 +
+          5
+      ),
+      speed: Math.floor(
+        ((2 * this.baseStats.speed +
+          this.individualValues.speed +
+          this.effortValues.speed) *
+          this.level) /
+          100 +
+          5
+      ),
     };
     return stats;
   }
@@ -159,6 +207,7 @@ class Pokemon {
     this.experiencePoints += expGain;
 
     this.effortValues[target.effortPoints.type] += target.effortPoints.amount; // incrementar los effortValues en la estadística correspondiente con la información de effortPoints del oponente
+    //console.log(target.effortPoints.type);
     console.log(`${this.name} gained ${expGain} experience points`); // anunciar "[nombre] gained [cantidad] experience points"
 
     if (this.experiencePoints >= this.expForLevel(this.level + 1)) {

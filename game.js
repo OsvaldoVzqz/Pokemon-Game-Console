@@ -11,7 +11,7 @@ class Game {
 
   start() {
     let [playerName, species, pokeName] = Game.welcome();
-    this.player = new Player(playerName, species, pokeName, 5);
+    this.player = new Player(playerName, species, pokeName, 3);
 
     let choice;
     while ((choice = Game.menu()) !== null) {
