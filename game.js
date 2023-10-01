@@ -51,7 +51,7 @@ class Game {
     console.log(
       `${bot.name} has a ${bot.pokemon.name} level ${bot.pokemon.level}`
     );
-  
+
     // Usar confirm() para preguntar al usuario si quiere pelear "Do you want to fight?"
     var resultado = confirm("Do you want to fight?");
 
@@ -82,7 +82,21 @@ class Game {
   }
 
   showStats() {
-    console.table(this.player.pokemon.getStats());
+    let obj = this.player.pokemon,
+      pkmnStats = obj.stats;
+    console.table({
+      species: obj.species,
+      level: obj.level,
+      type: obj.type.join(", "),
+      experiencePoints: obj.experiencePoints,
+      stats: "",
+      hp: pkmnStats.hp,
+      attack: pkmnStats.attack,
+      defense: pkmnStats.defense,
+      specialAttack: pkmnStats.specialAttack,
+      specialDefense: pkmnStats.specialDefense,
+      speed: pkmnStats.speed,
+    });
   }
 
   static welcome() {

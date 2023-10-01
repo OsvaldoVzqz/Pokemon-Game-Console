@@ -142,7 +142,7 @@ class Pokemon {
         console.log("It's not very effective"); // anunciar mensaje según efectividad. Por ejemplo "It's not very effective..."
       }
 
-      damage *= effectiveness; //  calcular el daño final usando el daño base, si fue critico o no y la efectividad
+      damage = Math.floor(damage * effectiveness); //  calcular el daño final usando el daño base, si fue critico o no y la efectividad
 
       target.receiveDamage(damage); //  Hacer daño al oponente usando su metedo receiveDamage
       console.log(`And it hit ${target.name} with ${damage} damage.`); //  Anunciar el daño hecho: "And it hit [oponente] with [daño] damage"
