@@ -35,6 +35,21 @@ class Battle {
         this.printBattleStatus();
       }
     }
+    if (this.player2.pokemon.isFainted()) {
+      console.log(this.player2.pokemon.name + " IS FAINTED!");
+      console.log(this.player1.pokemon.name + " WINS!");
+      console.log("Le has ganado a </b>" + this.player2.name);
+      this.player1.pokemon.processVictory(this.player1.pokemon);
+    }
+    if (this.player1.pokemon.isFainted()) {
+      console.log(this.player1.pokemon.name + " IS FAINTED!");
+      console.log(this.player2.pokemon.name + " WINS!");
+      console.log("Has perdido la batalla contra " + this.player2.name);
+      console.log(
+        "\x1b[1m%s\x1b[0m",
+        "Has salido corriendo al centro pokemon más cercano..."
+      );
+    }
   }
 
   getFirstPlayer() {
@@ -42,7 +57,10 @@ class Battle {
     if (priorityResult) return priorityResult;
 
     let speedResult = this.firstBySpeed();
-    if (speedResult) return speedResult;
+    if (speedResult) {
+      console.log(speedResult);
+      return speedResult;
+    }
 
     return Math.random() < 0.5 ? this.player1 : this.player2;
   }

@@ -5,7 +5,6 @@ class Pokemon {
     this.level = level;
 
     const pokeData = Pokemons.find((p) => p.species === species);
-    console.log(pokeData);
 
     this.type = pokeData.type;
     this.baseExp = pokeData.baseExp;
@@ -101,8 +100,17 @@ class Pokemon {
       ? this.stats.specialDefense
       : this.stats.defense; // determinar si se usara el stat defense o specialDefense del defensor
 
-    return (attackStat / defenseStat) * this.currentMove.power; // retornar el resultado de la formula de daño
-  }
+    return (
+      Math.floor(
+        Math.floor(
+          (Math.floor((2 * this.level) / 5.0 + 2) *
+            attackStat *
+            this.currentMove.power) /
+            defenseStat
+        ) / 50
+      ) + 2
+    ); // retornar el resultado de la formula de daño
+  } //Math.floor((attackStat / defenseStat) * this.currentMove.power);
 
   // calcular el multiplicador de efectividad tomando el tipo del currentMove y el tipo de pokemon del oponente
   calculateEffectiveness(target) {
@@ -127,11 +135,13 @@ class Pokemon {
       }
 
       const effectiveness = this.calculateEffectiveness(target); //  calcular el multiplicador de efectividad con calculateEffectiveness
+
       if (effectiveness > 1) {
         console.log("It's super effective!");
       } else if (effectiveness < 1) {
         console.log("It's not very effective"); // anunciar mensaje según efectividad. Por ejemplo "It's not very effective..."
       }
+
       damage *= effectiveness; //  calcular el daño final usando el daño base, si fue critico o no y la efectividad
 
       target.receiveDamage(damage); //  Hacer daño al oponente usando su metedo receiveDamage
@@ -144,11 +154,11 @@ class Pokemon {
 
   processVictory(target) {
     // calcular la experiencia ganada e incrementarla a tus experiencePoints
+
     const expGain = target.baseExp;
     this.experiencePoints += expGain;
 
-    this.effortVAlues[target.effortPoints.type] += target.effortPoints.amount; // incrementar los effortValues en la estadística correspondiente con la información de effortPoints del oponente
-
+    this.effortValues[target.effortPoints.type] += target.effortPoints.amount; // incrementar los effortValues en la estadística correspondiente con la información de effortPoints del oponente
     console.log(`${this.name} gained ${expGain} experience points`); // anunciar "[nombre] gained [cantidad] experience points"
 
     if (this.experiencePoints >= this.expForLevel(this.level + 1)) {

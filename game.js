@@ -51,14 +51,27 @@ class Game {
     console.log(
       `${bot.name} has a ${bot.pokemon.name} level ${bot.pokemon.level}`
     );
-    console.log("`%cThe battle is about to start!", "font-weight: bold;");
-    console.log(
-      `${this.player.name} sent out ${this.player.pokemon.name.toUpperCase()}!`
-    );
-    console.log(`${bot.name} sent out ${bot.pokemon.name.toUpperCase()}!`);
-    console.log("`%cBattle Start!", "font-weight: bold;");
-    let battle = new Battle(this.player, bot);
-    battle.start();
+  
+    // Usar confirm() para preguntar al usuario si quiere pelear "Do you want to fight?"
+    var resultado = confirm("Do you want to fight?");
+
+    // Si, sí quiere pelear
+    if (resultado) {
+      console.log("`%cThe battle is about to start!", "font-weight: bold;");
+      console.log(
+        `${
+          this.player.name
+        } sent out ${this.player.pokemon.name.toUpperCase()}!`
+      );
+      console.log(`${bot.name} sent out ${bot.pokemon.name.toUpperCase()}!`);
+      console.log("`%cBattle Start!", "font-weight: bold;");
+      const battle = new Battle(this.player, bot);
+      battle.start();
+    } else {
+      Game.menu();
+    }
+    // Crear una Batalla entre el player y el oponente
+    // empezar la batalla con su start
   }
 
   challengeLeader() {

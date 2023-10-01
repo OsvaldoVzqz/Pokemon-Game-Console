@@ -6,7 +6,7 @@ class Player {
 
   selectMove() {
     let moves = this.pokemon.getMoves();
-    let move = prompt("Select a move: " + moves.join(", "));
+    let move = prompt("Select a move:\n" + moves.join("\n"), moves[0]);
 
     if (move === null) {
       return true;
