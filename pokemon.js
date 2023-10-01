@@ -155,7 +155,7 @@ class Pokemon {
   processVictory(target) {
     // calcular la experiencia ganada e incrementarla a tus experiencePoints
 
-    const expGain = target.baseExp;
+    const expGain = Math.floor((target.baseExp * target.level) / 7);
     this.experiencePoints += expGain;
 
     this.effortValues[target.effortPoints.type] += target.effortPoints.amount; // incrementar los effortValues en la estadística correspondiente con la información de effortPoints del oponente
